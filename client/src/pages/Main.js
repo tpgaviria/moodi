@@ -5,25 +5,19 @@ import SpotifyButton from '../components/SpotifyButton';
 import LIFXButton from '../components/LIFXButton';
 import API from '../utilities/APIs';
 
-
 class Main extends Component {
     state = {
         currentCity: "Atlanta",
         weatherData: ""
-        //HAI I SET MY STATE TO THIS. 
     }
-
-    // componentDidMount() {
-
-    //HAI I"M THE AXIOS CALL. 
-    //HAI JUST DO THIS.SETSTATE WITH ME :^)
-    // }
 
     getWeather = () => {
         API.getWeather(this.state.currentCity)
-            .then(res => this.setState({
-                weatherData: res.data
+            .then(res =>
+                this.setState({
+                weatherData: res
             }))
+            .catch(console.log('error getting weather'))
     }
 
     componentDidMount() {
@@ -34,7 +28,7 @@ class Main extends Component {
         return (
             <div>
                 <Logo />
-                <WeatherWidget />
+                <WeatherWidget onClick={this.getWeather.bind(this)} />
                 <SpotifyButton />
                 <LIFXButton />
             </div>

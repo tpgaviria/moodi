@@ -1,7 +1,7 @@
 const path = require('path');
 const router = require('express').Router();
-const lifxRoutes = require('./lifx');
-const spotifyRoutes = require('./spotify');
+// const lifxRoutes = require('./lifx');
+// const spotifyRoutes = require('./spotify');
 const weatherRoutes = require('./weather');
 
 router.use('/weather', weatherRoutes);

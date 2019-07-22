@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 export default {
-    getWeather: function(city) {
+    getWeather: function (city) {
         return axios.get('/api/weather', city)
     },
-    changeLight: function(mood) {
+    changeLight: function (mood) {
         return axios.post('/api/lights', mood)
     },
-    changeSong: function(mood) {
+    changeSong: function (mood) {
         return axios.post('/api/music', mood)
     }
 }
