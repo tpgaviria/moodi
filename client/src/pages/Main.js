@@ -10,6 +10,7 @@ require('dotenv').config();
 class Main extends Component {
     state = {
         currentCity: "Atlanta",
+        weatherData: "",
         currentTime: "",
         weatherMain: "",
         weatherDesc: "",
@@ -17,54 +18,76 @@ class Main extends Component {
         weatherIconId: ""
     }
 
-    
-    
     componentDidMount() {
-        
-        // getWeather = () => {
-            // const CITY = this.state.currentCity;
-            // const KEY = process.env.WEATHER_KEY;
-            // axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${KEY}`)
-            //     .then(results => console.log(results))
-            //     .catch(console.log('error getting weather from weather controller'))
-        // }
-        
-        
-        API.getWeather(this.state.currentCity)
-        .then(res =>
-            this.setState({
-                // currentTime: time,
-                weatherMain: res.data.weather[0].main,
-                weatherDesc: res.data.weather[0].description,
-                currentTemp: res.data.main.temp,
-                    weatherIconId: res.data.weather[0].icon
-                })
-                )
-                .catch(console.log('error getting weather'))
+
+        let time = "";
+
+        const initialTime = () => {
+            let ampm = 'AM';
+            let hour = new Date().getHours();
+            if (hour > 12) {
+                hour = hour - 12;
+                ampm = 'PM';
             }
-            
-            // componentDidMount() {
-                //     this.getWeather();
-                // }
-                
-                render() {
-                    const tick = () => {
-                        // console.log('time calc');
-                        let time = "";
-                        time = new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();
-                        this.setState({
-                            currentTime: time
-                        })
-                    }
-                    setTimeout(tick, 1000);
-                    // console.log(this.state);
-                    return (
-                        <div>
+            let minutes = new Date().getMinutes();
+            if (minutes.toString().length === 1) {
+                minutes = '0' + minutes;
+            }
+            let seconds = new Date().getSeconds();
+            if (seconds.toString().length === 1) {
+                seconds = '0' + seconds;
+            }
+            time = `${hour}:${minutes}:${seconds} ${ampm}`;
+        }
+        initialTime();
+
+        API.getWeather(this.state.currentCity)
+            .then(res => {
+                const temp = (Math.round(((res.data.main.temp) - 273.15) * 1.8) + 32) + '°';
+                this.setState({
+                    weatherData: res.data,
+                    currentTime: time,
+                    weatherMain: res.data.weather[0].main,
+                    weatherDesc: res.data.weather[0].description,
+                    currentTemp: temp,
+                    icon: res.data.weather[0].icon
+                })
+            })
+            .catch(console.log('error getting weather'))
+    }
+
+    render() {
+        const tick = () => {
+            let time = "";
+
+            let ampm = 'AM';
+            let hour = new Date().getHours();
+            if (hour > 12) {
+                hour = hour - 12;
+                ampm = 'PM';
+            }
+            let minutes = new Date().getMinutes();
+            if (minutes.toString().length === 1) {
+                minutes = '0' + minutes;
+            }
+            let seconds = new Date().getSeconds();
+            if (seconds.toString().length === 1) {
+                seconds = '0' + seconds;
+            }
+
+            time = `${hour}:${minutes}:${seconds} ${ampm}`;
+            this.setState({
+                currentTime: time
+            })
+        }
+        setTimeout(tick, 1000);
+        return (
+            <div>
                 <Logo />
                 <WeatherWidget data={this.state} />
                 <SpotifyButton />
                 <LIFXButton />
-            </div>
+            </div >
         );
     }
 }
