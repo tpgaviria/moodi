@@ -5,11 +5,15 @@ const router = require('express').Router();
 const weatherRoutes = require('./weather');
 
 router.use('/weather', weatherRoutes);
+
+// router.get('/weather', (req, res) => {
+//     console.log('worked');
+// })
 // router.use('/lights', lifxRoutes);
 // router.use('/music', spotifyRoutes);
 
-router.use(function (req, res) {
-    res.sendFile(path.join(__dirname, '../../client/build/index.html'))
-})
+// router.use(function (req, res) {
+//     res.sendFile(path.join(__dirname, '../../client/build/index.html'))
+// })
 
 module.exports = router;
