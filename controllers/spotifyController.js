@@ -1,14 +1,12 @@
-const SpotifyStratgey = require('passport-spotify').Strategy;
-require('dotenv').config();
+const passport = require('passport');
 
-passport.use(
-    new SpotifyStratgey({
-        clientID: process.env.SPOTIFY_ID,
-        clientSecret: process.env.SPOTIFY_KEY,
-        callbackURL: 'http://localhost:3000/callback'
-    }, function (accessToken, refreshToken, expires_in, profile, done) {
-        URLSearchParams.findOrCreate({ spotifyId: profile.id }, function (err, user) {
-            return done(err, user);
-        })
-    })
-)
+module.exports = {
+    passport.authenticate('spotify', {
+        scope: ['user-read-email', 'user-read-private'],
+        showDialog: true
+      }),
+      function(req, res) {
+        // The request will be redirected to spotify for authentication, so this
+        // function will not be called.
+      }
+}

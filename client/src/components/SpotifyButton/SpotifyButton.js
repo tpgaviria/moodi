@@ -2,7 +2,7 @@ import React from 'react';
 import './SpotifyButton.css';
 
 const SpotifyButton = () => (
-    <button className="btn-lg btn-success">sync spotify</button>
+    <a href="/auth/spotify"><button className="btn-lg btn-success">sync spotify</button></a>
 )
 
 export default SpotifyButton;

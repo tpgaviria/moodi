@@ -5,6 +5,7 @@ const router = require('express').Router();
 const weatherRoutes = require('./weather');
 
 router.use('/weather', weatherRoutes);
+// router.use('/music', spotifyRoutes);
 
 // router.get('/weather', (req, res) => {
 //     console.log('worked');
