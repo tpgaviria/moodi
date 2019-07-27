@@ -15,7 +15,8 @@ class Main extends Component {
         weatherMain: "",
         weatherDesc: "",
         currentTemp: "",
-        weatherIconId: ""
+        weatherIconId: "",
+        token: null,
     }
 
     componentDidMount() {
@@ -63,6 +64,8 @@ class Main extends Component {
             //       (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
             //       '&redirect_uri=' + encodeURIComponent(redirect_uri));
             //     });
+
+            
     }
 
     render() {
