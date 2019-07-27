@@ -1,10 +1,14 @@
 // import axios from 'axios';
 import React, { Component } from 'react';
+import * as $ from "jquery";
 import Logo from '../components/Logo';
+import hash from "../hash";
 import WeatherWidget from '../components/WeatherWidget';
-import SpotifyButton from '../components/SpotifyButton';
+import Player from '../components/SpotifyButton';
 import LIFXButton from '../components/LIFXButton';
 import API from '../utilities/APIs';
+import { authEndpoint, clientId, redirectUri, scopes } from "../config";
+// import axios from 'axios';
 require('dotenv').config();
 
 class Main extends Component {
@@ -17,6 +21,17 @@ class Main extends Component {
         currentTemp: "",
         weatherIconId: "",
         token: null,
+        item: {
+            album: {
+                images: [{ url: "" }]
+            },
+            name: "",
+            artists: [{ name: "" }],
+            duration_ms: 0,
+        },
+        is_playing: "Paused",
+        progress_ms: 0,
+        userdata: ""
     }
 
     componentDidMount() {
@@ -56,19 +71,45 @@ class Main extends Component {
             })
             .catch(console.log('error getting weather'))
 
-            // app.get('/login', function(req, res) {
-            //     var scopes = 'user-read-private user-read-email';
-            //     res.redirect('https://accounts.spotify.com/authorize' +
-            //       '?response_type=code' +
-            //       '&client_id=' + my_client_id +
-            //       (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-            //       '&redirect_uri=' + encodeURIComponent(redirect_uri));
-            //     });
 
-            
+        let _token = hash.access_token;
+        if (_token) {
+            // Set token
+            this.getCurrentlyPlaying(_token);
+            this.setState({
+                token: _token
+            });
+        }
+
+
+
     }
 
+
+    getCurrentlyPlaying(token) {
+        $.ajax({
+            url: "https://api.spotify.com/v1/me/player",
+            type: "GET",
+            beforeSend: (xhr) => {
+                xhr.setRequestHeader("Authorization", "Bearer " + token);
+            },
+            success: (data) => {
+                console.log("playingdata", data);
+                // this.getCurrentlyPlaying(token);
+                this.setState({
+                    userdata: data,
+                    item: data.item,
+                    is_playing: data.is_playing,
+                    progress_ms: data.progress_ms
+                });
+            }
+        });
+
+    }
+
+
     render() {
+        // this.getCurrentlyPlaying(this.state.token);
         const tick = () => {
             let time = "";
 
@@ -92,13 +133,33 @@ class Main extends Component {
                 currentTime: time
             })
         }
-        setTimeout(tick, 1000);
+        // setTimeout(tick, 1000);
         return (
             <div>
                 <Logo />
                 <WeatherWidget data={this.state} />
-                <SpotifyButton />
+                {/* <SpotifyButton /> */}
                 <LIFXButton />
+
+                {!this.state.token && (
+                    <a
+                        className="btn btn--loginApp-link"
+                        href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
+                            "%20"
+                        )}&response_type=token&show_dialog=true`}
+                    >
+                        Login to Spotify
+            </a>
+                )}
+                {this.state.token && (
+                    <Player
+                        token={this.state.token}
+                        item={this.state.item}
+                        userdata={this.state.userdata}
+                        is_playing={this.state.is_playing}
+                        progress_ms={this.progress_ms}
+                    />
+                )}
             </div >
         );
     }
