@@ -1,0 +1,97 @@
+[
+    {
+        "weather": "thunderstorm",
+        "colors": [
+            "blue",
+            "purple"
+        ],
+        "musicAttr": {
+            "min_acousticness": ".8",
+            "min_energy": ".7",
+            "min_loudness": ".7",
+            "max_mode": ".4",
+            "min_tempo": "120",
+            "max_valence": ".3"
+        }
+    },
+    {
+        "weather": "drizzle",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": ""
+    },
+    {
+        "weather": "rain",
+        "colors": [
+            "blue",
+            "green"
+        ],
+        "musicAttr": ""
+    },
+    {
+        "weather": "snow",
+        "colors": [
+            "light blue",
+            "light teal"
+        ],
+        "musicAttr": ""
+    },
+    {
+        "weather": "mist",
+        "colors": [
+            "light purple",
+            "purple"
+        ],
+        "musicAttr": ""
+    },
+    {
+        "weather": "smoke",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": ""
+    },
+    {
+        "weather": "haze",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": ""
+    },
+    {
+        "weather": "dust",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": ""
+    },
+    {
+        "weather": "fog",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": ""
+    },
+    {
+        "weather": "clouds",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": ""
+    },
+    {
+        "weather": "clear",
+        "colors": [
+            "light blue",
+            "light yellow"
+        ],
+        "musicAttr": ""
+    }
+]

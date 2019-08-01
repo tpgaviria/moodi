@@ -14,13 +14,14 @@ require('dotenv').config();
 class Main extends Component {
     state = {
         currentCity: "Atlanta",
-        weatherData: "",
+        weatherData: null,
         currentTime: "",
-        weatherMain: "",
+        weatherMain: null,
         weatherDesc: "",
         currentTemp: "",
         weatherIconId: "",
         token: null,
+        userdata: null,
         item: {
             album: {
                 images: [{ url: "" }]
@@ -30,8 +31,7 @@ class Main extends Component {
             duration_ms: 0,
         },
         is_playing: "Paused",
-        progress_ms: 0,
-        userdata: ""
+        progress_ms: 0
     }
 
     componentDidMount() {
@@ -75,69 +75,94 @@ class Main extends Component {
         let _token = hash.access_token;
         if (_token) {
             // Set token
-            this.getCurrentlyPlaying(_token);
+            // this.getCurrentlyPlaying(_token);
             this.setState({
                 token: _token
             });
         }
 
 
+    }
+
+    componentDidUpdate() {
+        if (this.state.token) {
+            this.getWeatherPlaylist(this.state.token);
+        }
 
     }
 
+    // getCurrentlyPlaying(token) {
+    //     $.ajax({
+    //         url: "https://api.spotify.com/v1/me/player",
+    //         type: "GET",
+    //         beforeSend: (xhr) => {
+    //             xhr.setRequestHeader("Authorization", "Bearer " + token);
+    //         },
+    //         success: (data) => {
+    //             console.log("playingdata", data);
+    //             // this.getCurrentlyPlaying(token);
+    //             this.setState({
+    //                 item: data.item,
+    //                 is_playing: data.is_playing,
+    //                 progress_ms: data.progress_ms
+    //             });
+    //         }
+    //     });
 
-    getCurrentlyPlaying(token) {
+    // }
+
+    getWeatherPlaylist(token) {
         $.ajax({
-            url: "https://api.spotify.com/v1/me/player",
+            url: "https://api.spotify.com/v1/recommendations?market=US&seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_tracks=0c6xIDDpzE81m2q797ordA&min_energy=0.4&min_popularity=50",
             type: "GET",
             beforeSend: (xhr) => {
                 xhr.setRequestHeader("Authorization", "Bearer " + token);
             },
             success: (data) => {
-                console.log("playingdata", data);
+                console.log("recommended", data);
                 // this.getCurrentlyPlaying(token);
-                this.setState({
-                    userdata: data,
-                    item: data.item,
-                    is_playing: data.is_playing,
-                    progress_ms: data.progress_ms
-                });
+                // this.setState({
+                //     item: data.item,
+                //     is_playing: data.is_playing,
+                //     progress_ms: data.progress_ms
+                // });
             }
-        });
+        })
 
     }
 
 
     render() {
+        // console.log('state: ' + JSON.stringify(this.state))
         // this.getCurrentlyPlaying(this.state.token);
-        const tick = () => {
-            let time = "";
+        // const tick = () => {
+        //     let time = "";
 
-            let ampm = 'AM';
-            let hour = new Date().getHours();
-            if (hour > 12) {
-                hour = hour - 12;
-                ampm = 'PM';
-            }
-            let minutes = new Date().getMinutes();
-            if (minutes.toString().length === 1) {
-                minutes = '0' + minutes;
-            }
-            let seconds = new Date().getSeconds();
-            if (seconds.toString().length === 1) {
-                seconds = '0' + seconds;
-            }
+        //     let ampm = 'AM';
+        //     let hour = new Date().getHours();
+        //     if (hour > 12) {
+        //         hour = hour - 12;
+        //         ampm = 'PM';
+        //     }
+        //     let minutes = new Date().getMinutes();
+        //     if (minutes.toString().length === 1) {
+        //         minutes = '0' + minutes;
+        //     }
+        //     let seconds = new Date().getSeconds();
+        //     if (seconds.toString().length === 1) {
+        //         seconds = '0' + seconds;
+        //     }
 
-            time = `${hour}:${minutes}:${seconds} ${ampm}`;
-            this.setState({
-                currentTime: time
-            })
-        }
+        //     time = `${hour}:${minutes}:${seconds} ${ampm}`;
+        //     this.setState({
+        //         currentTime: time
+        //     })
+        // }
         // setTimeout(tick, 1000);
         return (
             <div>
                 <Logo />
-                <WeatherWidget data={this.state} />
+                {this.state.weatherData && (<WeatherWidget data={this.state} />)}
                 {/* <SpotifyButton /> */}
                 <LIFXButton />
 
@@ -151,9 +176,10 @@ class Main extends Component {
                         Login to Spotify
             </a>
                 )}
-                {this.state.token && (
+                {this.state.token && this.state.weatherData && (
                     <Player
                         token={this.state.token}
+                        weatherMain={this.state.weatherMain}
                         item={this.state.item}
                         userdata={this.state.userdata}
                         is_playing={this.state.is_playing}

@@ -6,7 +6,66 @@ import './WeatherWidget.css';
 
 class WeatherWidget extends Component {
 
+    state = {
+        time: ''
+    }
+
+    // tick() {
+    //     let time = '';
+
+    //     let ampm = 'AM';
+    //     let hour = new Date().getHours();
+    //     if (hour > 12) {
+    //         hour = hour - 12;
+    //         ampm = 'PM';
+    //     }
+    //     let minutes = new Date().getMinutes();
+    //     if (minutes.toString().length === 1) {
+    //         minutes = '0' + minutes;
+    //     }
+    //     let seconds = new Date().getSeconds();
+    //     if (seconds.toString().length === 1) {
+    //         seconds = '0' + seconds;
+    //     }
+
+    //     time = `${hour}:${minutes}:${seconds} ${ampm}`;
+    //     console.log(time);
+
+    // }
+
+    // componentDidMount() {
+    //     this.tick();
+    // }
+
+    tick = () => {
+        let time = '';
+
+        let ampm = 'AM';
+        let hour = new Date().getHours();
+        if (hour > 12) {
+            hour = hour - 12;
+            ampm = 'PM';
+        }
+        let minutes = new Date().getMinutes();
+        if (minutes.toString().length === 1) {
+            minutes = '0' + minutes;
+        }
+        let seconds = new Date().getSeconds();
+        if (seconds.toString().length === 1) {
+            seconds = '0' + seconds;
+        }
+
+        return (time = `${hour}:${minutes}:${seconds} ${ampm}`);
+       
+
+
+        setTimeout(this.tick, 1000);
+
+    }
+
     render() {
+
+        // this.tick();
 
         var base_url = window.location.origin;
         // console.log(host);
@@ -22,7 +81,7 @@ class WeatherWidget extends Component {
                     </div>
                     <div>
 
-                        <p id='time'>{this.props.data.currentTime}</p>
+                        <p id='time'>{this.tick()}</p>
                     </div>
                 </div>
                 <p id='temp'>{this.props.data.currentTemp}</p>
