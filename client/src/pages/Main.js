@@ -7,6 +7,7 @@ import WeatherWidget from '../components/WeatherWidget';
 import Player from '../components/SpotifyButton';
 import LIFXButton from '../components/LIFXButton';
 import API from '../utilities/APIs';
+import '../components/SpotifyButton/SpotifyButton.css';
 import { authEndpoint, clientId, redirectUri, scopes } from "../config";
 // import axios from 'axios';
 require('dotenv').config();
@@ -15,54 +16,20 @@ class Main extends Component {
     state = {
         currentCity: "Atlanta",
         weatherData: null,
-        currentTime: "",
         weatherMain: null,
         weatherDesc: "",
         currentTemp: "",
         weatherIconId: "",
         token: null,
         userdata: null,
-        item: {
-            album: {
-                images: [{ url: "" }]
-            },
-            name: "",
-            artists: [{ name: "" }],
-            duration_ms: 0,
-        },
-        is_playing: "Paused",
-        progress_ms: 0
     }
 
     componentDidMount() {
-
-        let time = "";
-
-        const initialTime = () => {
-            let ampm = 'AM';
-            let hour = new Date().getHours();
-            if (hour > 12) {
-                hour = hour - 12;
-                ampm = 'PM';
-            }
-            let minutes = new Date().getMinutes();
-            if (minutes.toString().length === 1) {
-                minutes = '0' + minutes;
-            }
-            let seconds = new Date().getSeconds();
-            if (seconds.toString().length === 1) {
-                seconds = '0' + seconds;
-            }
-            time = `${hour}:${minutes}:${seconds} ${ampm}`;
-        }
-        initialTime();
-
         API.getWeather(this.state.currentCity)
             .then(res => {
                 const temp = (Math.round(((res.data.main.temp) - 273.15) * 1.8) + 32) + '°';
                 this.setState({
                     weatherData: res.data,
-                    currentTime: time,
                     weatherMain: res.data.weather[0].main,
                     weatherDesc: res.data.weather[0].description,
                     currentTemp: temp,
@@ -80,14 +47,9 @@ class Main extends Component {
                 token: _token
             });
         }
-
-
     }
 
     componentDidUpdate() {
-        if (this.state.token) {
-            this.getWeatherPlaylist(this.state.token);
-        }
 
     }
 
@@ -99,7 +61,7 @@ class Main extends Component {
     //             xhr.setRequestHeader("Authorization", "Bearer " + token);
     //         },
     //         success: (data) => {
-    //             console.log("playingdata", data);
+    //             // console.log("playingdata", data);
     //             // this.getCurrentlyPlaying(token);
     //             this.setState({
     //                 item: data.item,
@@ -133,32 +95,9 @@ class Main extends Component {
 
 
     render() {
-        // console.log('state: ' + JSON.stringify(this.state))
+
         // this.getCurrentlyPlaying(this.state.token);
-        // const tick = () => {
-        //     let time = "";
 
-        //     let ampm = 'AM';
-        //     let hour = new Date().getHours();
-        //     if (hour > 12) {
-        //         hour = hour - 12;
-        //         ampm = 'PM';
-        //     }
-        //     let minutes = new Date().getMinutes();
-        //     if (minutes.toString().length === 1) {
-        //         minutes = '0' + minutes;
-        //     }
-        //     let seconds = new Date().getSeconds();
-        //     if (seconds.toString().length === 1) {
-        //         seconds = '0' + seconds;
-        //     }
-
-        //     time = `${hour}:${minutes}:${seconds} ${ampm}`;
-        //     this.setState({
-        //         currentTime: time
-        //     })
-        // }
-        // setTimeout(tick, 1000);
         return (
             <div>
                 <Logo />
@@ -168,13 +107,12 @@ class Main extends Component {
 
                 {!this.state.token && (
                     <a
-                        className="btn btn--loginApp-link"
                         href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
                             "%20"
                         )}&response_type=token&show_dialog=true`}
-                    >
-                        Login to Spotify
-            </a>
+                    ><button className="btn-lg btn-success">
+                            Login to Spotify
+            </button></a>
                 )}
                 {this.state.token && this.state.weatherData && (
                     <Player

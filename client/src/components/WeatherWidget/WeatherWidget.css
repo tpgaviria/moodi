@@ -1,4 +1,4 @@
-.weather {
+.weather-widget-container {
     background: rgb(0, 0, 0, 0.5);
     color: #e4e4e4;
     border-radius: 8px;
@@ -12,6 +12,10 @@
     margin: 0% 10%;
 }
 
+#time-container {
+    width: 50%;
+}
+
 #pointer {
     height: 1em;
     padding-top: 3px;
@@ -23,10 +27,14 @@
     padding: 0px;
 }
 
-#time {
-    font-size: 4em;
+#temp-container {
+    width: 30%;
 }
 
 #temp {
     font-size: 5em;
+}
+
+#clock-container {
+    width: 100%;
 }
