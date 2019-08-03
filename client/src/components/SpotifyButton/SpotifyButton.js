@@ -12,12 +12,29 @@ class Player extends React.Component {
         weatherMain: this.props.weatherMain,
         time: ''
     }
-
+    
     data = {
-        topArtists: []
+        topArtists: [],
+        playlist: []
     }
+    
+    // getUserData(token) {
+    //     console.log('get user data running');
+    //     // Make a call using the token
+    //     $.ajax({
+    //         url: "https://api.spotify.com/v1/me",
+    //         type: "GET",
+    //         beforeSend: (xhr) => {
+    //             xhr.setRequestHeader("Authorization", "Bearer " + token);
+    //         },
+    //         success: (data) => {
+    //             console.log("userdata", data);
+    //         }
+    //     });
+    // }
 
-    initializePlaylist(token) {
+    getTopArtists(token) {
+        // let token = token;
         $.ajax({
             url: "https://api.spotify.com/v1/me/top/artists",
             type: "GET",
@@ -26,30 +43,29 @@ class Player extends React.Component {
             },
             success: (data) => {
                 for (var i = 0; i < 5; i++) {
-                    this.data.topArtists.push(data.items[i].name);
+                    this.data.topArtists.push(data.items[i].id);
                 }
-                console.log(this.data);
+                this.getSongs(token);
             }
         })
     }
 
-
-    getUserData(token) {
-        console.log('get user data running');
-        // Make a call using the token
+    getSongs(token) {
+        let artists = this.data.topArtists;
+        let URL = `https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/recommendations?market=US&seed_artists=${artists[0]}&${artists[1]}&${artists[2]}&${artists[3]}&${artists[4]}}`;
+        // let query = '';
         $.ajax({
-            url: "https://api.spotify.com/v1/me",
+            url: URL,
             type: "GET",
             beforeSend: (xhr) => {
                 xhr.setRequestHeader("Authorization", "Bearer " + token);
             },
             success: (data) => {
-                console.log("userdata", data);
-
+                console.log(data);
             }
-        });
-
+        })
     }
+
 
 
     componentDidMount() {
@@ -61,7 +77,7 @@ class Player extends React.Component {
                 weatherMain: this.props.weatherMain
             });
 
-            this.initializePlaylist(this.state.token);
+            this.getTopArtists(this.state.token);
         }
 
 

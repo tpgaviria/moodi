@@ -24,7 +24,8 @@ class Main extends Component {
         userdata: null,
     }
 
-    componentDidMount() {
+    // componentWillMount() {
+    getWeather = () => {
         API.getWeather(this.state.currentCity)
             .then(res => {
                 const temp = (Math.round(((res.data.main.temp) - 273.15) * 1.8) + 32) + '°';
@@ -36,22 +37,20 @@ class Main extends Component {
                     icon: res.data.weather[0].icon
                 })
             })
-            .catch(console.log('error getting weather'))
-
 
         let _token = hash.access_token;
         if (_token) {
-            // Set token
-            // this.getCurrentlyPlaying(_token);
             this.setState({
                 token: _token
             });
         }
     }
 
-    componentDidUpdate() {
-
+    componentWillMount() {
+        this.getWeather();
     }
+
+    // }
 
     // getCurrentlyPlaying(token) {
     //     $.ajax({
