@@ -12,26 +12,68 @@ class Player extends React.Component {
         weatherMain: this.props.weatherMain,
         time: ''
     }
-    
+
     data = {
+        userID: '',
         topArtists: [],
+        playlistURL: '',
         playlist: []
     }
-    
-    // getUserData(token) {
-    //     console.log('get user data running');
-    //     // Make a call using the token
-    //     $.ajax({
-    //         url: "https://api.spotify.com/v1/me",
-    //         type: "GET",
-    //         beforeSend: (xhr) => {
-    //             xhr.setRequestHeader("Authorization", "Bearer " + token);
-    //         },
-    //         success: (data) => {
-    //             console.log("userdata", data);
-    //         }
-    //     });
-    // }
+
+    getUserData(token) {
+        $.ajax({
+            url: "https://api.spotify.com/v1/me",
+            type: "GET",
+            beforeSend: (xhr) => {
+                xhr.setRequestHeader("Authorization", "Bearer " + token);
+            },
+            success: (data) => {
+                this.data.userID = data.id;
+                console.log(this.data.userID);
+                this.createPlaylist(token);
+            }
+        });
+    }
+
+    createPlaylist(token) {
+        const data = {
+            "name": "Moodi Playlist",
+            "public": false
+        }
+        $.ajax({
+            url: `https://api.spotify.com/v1/users/${this.data.userID}/playlists`,
+            type: "POST",
+            data: JSON.stringify(data),
+            beforeSend: (xhr) => {
+                xhr.setRequestHeader("Authorization", "Bearer " + token);
+            },
+            success: (res) => {
+                // console.log(res);
+                this.data.playlistURL = res.id;
+                console.log('playlist created, id: ' + this.data.playlistURL);
+            }
+        });
+    }
+
+    addTracksToPlaylist(token) {
+        const data = {
+            "name": "Moodi Playlist",
+            "public": false
+        }
+        $.ajax({
+            url: `https://api.spotify.com/v1/playlists/${this.data.playlistURL}/tracks`,
+            type: "POST",
+            data: JSON.stringify(data),
+            beforeSend: (xhr) => {
+                xhr.setRequestHeader("Authorization", "Bearer " + token);
+            },
+            success: (res) => {
+                // console.log(res);
+                this.data.playlistURL = res.id;
+                console.log('playlist created, id: ' + this.data.playlistURL);
+            }
+        });
+    }
 
     getTopArtists(token) {
         // let token = token;
@@ -62,6 +104,10 @@ class Player extends React.Component {
             },
             success: (data) => {
                 console.log(data);
+                for (var i = 0; i < 10; i++) {
+                    this.data.playlist.push(data.tracks[i].uri);
+                }
+                console.log(this.data.playlist);
             }
         })
     }
@@ -76,7 +122,7 @@ class Player extends React.Component {
                 token: this.props.token,
                 weatherMain: this.props.weatherMain
             });
-
+            this.getUserData(this.state.token);
             this.getTopArtists(this.state.token);
         }
 
