@@ -7,6 +7,7 @@ import WeatherWidget from '../components/WeatherWidget';
 import Player from '../components/SpotifyButton';
 import LIFXButton from '../components/LIFXButton';
 import API from '../utilities/APIs';
+import BackgroundCanvas from '../components/BackgroundCanvas';
 import '../components/SpotifyButton/SpotifyButton.css';
 import { authEndpoint, clientId, redirectUri, scopes } from "../config";
 // import axios from 'axios';
@@ -99,6 +100,7 @@ class Main extends Component {
 
         return (
             <div>
+                <BackgroundCanvas />
                 <Logo />
                 {this.state.weatherData && (<WeatherWidget data={this.state} />)}
                 {/* <SpotifyButton /> */}
