@@ -7,10 +7,9 @@ class Player extends React.Component {
     state = {
         userdata: "",
         token: this.props.token,
-        item: '',
         is_playing: '',
         progress_ms: '',
-        weatherMain: this.props.weatherMain,
+        weatherMain: this.props.weather,
         time: '',
         playlistURL: null
     }

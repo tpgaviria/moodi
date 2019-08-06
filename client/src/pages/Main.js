@@ -31,7 +31,6 @@ class Main extends Component {
     }
 
     handleWeatherGet(data) {
-        // this.data.weather = data;
         this.setState({
             weather: data
         })
