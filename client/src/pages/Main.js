@@ -7,7 +7,7 @@ import WeatherWidget from '../components/WeatherWidget';
 import Player from '../components/SpotifyButton';
 // import LIFXButton from '../components/LIFXButton';
 import MoodSelector from '../components/MoodSelector';
-import API from '../utilities/APIs';
+// import API from '../utilities/APIs';
 import BackgroundCanvas from '../components/BackgroundCanvas';
 import '../components/SpotifyButton/SpotifyButton.css';
 import { authEndpoint, clientId, redirectUri, scopes } from "../config";
@@ -16,69 +16,43 @@ require('dotenv').config();
 class Main extends Component {
     state = {
         currentCity: "Atlanta",
-        weatherData: null,
-        weatherMain: null,
-        weatherDesc: "",
-        currentTemp: "",
-        weatherIconId: "",
         token: null,
-        userdata: null
+        mood: null,
+        weather: null
     }
 
-    data = {
-        mood: null
-    }
-
-    getWeather = () => {
-        API.getWeather(this.state.currentCity)
-            .then(res => {
-                const temp = (Math.round(((res.data.main.temp) - 273.15) * 1.8) + 32) + '°';
-                this.setState({
-                    weatherData: res.data,
-                    weatherMain: res.data.weather[0].main,
-                    weatherDesc: res.data.weather[0].description,
-                    currentTemp: temp,
-                    icon: res.data.weather[0].icon
-                })
-            })
-
+    componentDidMount() {
         let _token = hash.access_token;
-        if (_token) {
-            this.setState({
-                token: _token
-            });
-        }
-    }
-
-    componentWillMount() {
-        this.getWeather();
-    }
-
-    getWeatherPlaylist(token) {
-        $.ajax({
-            url: "https://api.spotify.com/v1/recommendations?market=US&seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_tracks=0c6xIDDpzE81m2q797ordA&min_energy=0.4&min_popularity=50",
-            type: "GET",
-            beforeSend: (xhr) => {
-                xhr.setRequestHeader("Authorization", "Bearer " + token);
-            },
-            success: (data) => {
-                console.log("recommended", data);
+            if (_token) {
+                this.setState({
+                    token: _token
+                });
             }
+    }
+
+    handleWeatherGet(data) {
+        // this.data.weather = data;
+        this.setState({
+            weather: data
         })
+        console.log(this.data)
     }
 
     handleMoodSelection(event) {
-        this.data.mood = event.target.value;
-        console.log(this.data.mood);
+        this.setState({
+            mood: event.target.value
+        })
+
     }
 
     render() {
+        console.log(this.state.mood);
 
         return (
             <div>
                 <BackgroundCanvas />
                 <Logo />
-                {this.state.weatherData && (<WeatherWidget data={this.state} />)}
+                <WeatherWidget handleWeatherGet={this.handleWeatherGet.bind(this)} />
                 {/* <LIFXButton /> */}
                 {this.state.token && <MoodSelector onChange={this.handleMoodSelection.bind(this)} />}
 
@@ -91,14 +65,10 @@ class Main extends Component {
                             Login to Spotify
             </button></a>
                 )}
-                {this.state.token && this.state.weatherData && (
+                {this.state.token && this.state.weather && !this.state.mood && (
                     <Player
                         token={this.state.token}
-                        weatherMain={this.state.weatherMain}
-                        item={this.state.item}
-                        userdata={this.state.userdata}
-                        is_playing={this.state.is_playing}
-                        progress_ms={this.progress_ms}
+                        weatherMain={this.state.weather}
                     />
                 )}
             </div >
