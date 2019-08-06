@@ -1,6 +1,7 @@
 import React from "react";
 import * as $ from 'jquery';
 import "./SpotifyButton.css";
+import moodData from '../../../src/moodData.json';
 
 class Player extends React.Component {
     state = {
@@ -15,6 +16,7 @@ class Player extends React.Component {
     }
 
     data = {
+        moodData,
         userID: '',
         topArtists: [],
         playlistURL: '',
@@ -47,14 +49,28 @@ class Player extends React.Component {
                 for (var i = 0; i < 5; i++) {
                     this.data.topArtists.push(data.items[i].id);
                 }
-                this.getSongs(token);
+                this.getMusicAttr(token);
             }
         })
     }
 
-    getSongs(token) {
-        let artists = this.data.topArtists;
-        let URL = `https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/recommendations?market=US&seed_artists=${artists[0]}&${artists[1]}&${artists[2]}&${artists[3]}&${artists[4]}}`;
+    getMusicAttr(token) {
+        let weather = this.state.weatherMain;
+        weather = weather.toLowerCase();
+        let musicAttr = null;
+        for (let i = 0; i < moodData.length; i++) {
+           if (weather === moodData[i].weather) {
+               musicAttr = moodData[i].musicAttr
+            }
+        }
+        let query = $.param(musicAttr);
+        this.getSongs(token, query);
+    }
+
+    getSongs(token, query) {
+        let artists = this.data.topArtists.join('&');
+        let URL = `https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/recommendations?market=US&seed_artists=${artists}&${query}`;
+        console.log(URL);
         // let query = '';
         $.ajax({
             url: URL,
@@ -70,7 +86,7 @@ class Player extends React.Component {
             }
         })
     }
-
+    
     checkPlaylistExists(token) {
         $.ajax({
             url: `https://api.spotify.com/v1/users/${this.data.userID}/playlists??offset=0&limit=50`,
@@ -98,7 +114,7 @@ class Player extends React.Component {
             }
         })
     }
-
+    
     createPlaylist(token) {
         const data = {
             "name": "Moodi Playlist",
@@ -123,7 +139,7 @@ class Player extends React.Component {
     addTracksToPlaylist(token) {
         let data = this.data.playlist.join();
         $.ajax({
-            url: `https://api.spotify.com/v1/playlists/${this.data.playlistURL}/tracks?uris=${data}`,
+            url: `https://api.spotify.com/v1/playlists/${this.data.playlistURL}/tracks?uris=${data}&position=0`,
             type: "POST",
             beforeSend: (xhr) => {
                 xhr.setRequestHeader("Authorization", "Bearer " + token);
@@ -151,7 +167,7 @@ class Player extends React.Component {
             <div>
                 <div id="player">
                     {this.state.playlistURL &&
-                        <iframe src={`https://open.spotify.com/embed/playlist/${this.data.playlistURL}`} width="300" height="380" frameBorder="0" allowtransparency="true" allow="encrypted-media" title="player"></iframe>
+                        <iframe src={`https://open.spotify.com/embed/playlist/${this.data.playlistURL}`} width="400" height="380" frameBorder="0" allowtransparency="true" allow="encrypted-media" title="player"></iframe>
                     }
                 </div>
             </div>

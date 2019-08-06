@@ -5,12 +5,12 @@ import Logo from '../components/Logo';
 import hash from "../hash";
 import WeatherWidget from '../components/WeatherWidget';
 import Player from '../components/SpotifyButton';
-import LIFXButton from '../components/LIFXButton';
+// import LIFXButton from '../components/LIFXButton';
+import MoodSelector from '../components/MoodSelector';
 import API from '../utilities/APIs';
 import BackgroundCanvas from '../components/BackgroundCanvas';
 import '../components/SpotifyButton/SpotifyButton.css';
 import { authEndpoint, clientId, redirectUri, scopes } from "../config";
-// import axios from 'axios';
 require('dotenv').config();
 
 class Main extends Component {
@@ -22,10 +22,13 @@ class Main extends Component {
         currentTemp: "",
         weatherIconId: "",
         token: null,
-        userdata: null,
+        userdata: null
     }
 
-    // componentWillMount() {
+    data = {
+        mood: null
+    }
+
     getWeather = () => {
         API.getWeather(this.state.currentCity)
             .then(res => {
@@ -51,28 +54,6 @@ class Main extends Component {
         this.getWeather();
     }
 
-    // }
-
-    // getCurrentlyPlaying(token) {
-    //     $.ajax({
-    //         url: "https://api.spotify.com/v1/me/player",
-    //         type: "GET",
-    //         beforeSend: (xhr) => {
-    //             xhr.setRequestHeader("Authorization", "Bearer " + token);
-    //         },
-    //         success: (data) => {
-    //             // console.log("playingdata", data);
-    //             // this.getCurrentlyPlaying(token);
-    //             this.setState({
-    //                 item: data.item,
-    //                 is_playing: data.is_playing,
-    //                 progress_ms: data.progress_ms
-    //             });
-    //         }
-    //     });
-
-    // }
-
     getWeatherPlaylist(token) {
         $.ajax({
             url: "https://api.spotify.com/v1/recommendations?market=US&seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_tracks=0c6xIDDpzE81m2q797ordA&min_energy=0.4&min_popularity=50",
@@ -82,29 +63,24 @@ class Main extends Component {
             },
             success: (data) => {
                 console.log("recommended", data);
-                // this.getCurrentlyPlaying(token);
-                // this.setState({
-                //     item: data.item,
-                //     is_playing: data.is_playing,
-                //     progress_ms: data.progress_ms
-                // });
             }
         })
-
     }
 
+    handleMoodSelection(event) {
+        this.data.mood = event.target.value;
+        console.log(this.data.mood);
+    }
 
     render() {
-
-        // this.getCurrentlyPlaying(this.state.token);
 
         return (
             <div>
                 <BackgroundCanvas />
                 <Logo />
                 {this.state.weatherData && (<WeatherWidget data={this.state} />)}
-                {/* <SpotifyButton /> */}
-                <LIFXButton />
+                {/* <LIFXButton /> */}
+                {this.state.token && <MoodSelector onChange={this.handleMoodSelection.bind(this)} />}
 
                 {!this.state.token && (
                     <a

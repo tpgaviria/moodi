@@ -1,10 +1,11 @@
 iframe {
     border-radius: 15px;
-    margin: 5%;
+    /* margin: 5%; */
     display: block;
     opacity: 0.8;
 }
 
 #player {
     /* background: rgb(42, 87, 126); */
+    padding: 5%;
 }

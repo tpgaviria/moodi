@@ -1,0 +1,143 @@
+[
+    {
+        "weather": "thunderstorm",
+        "colors": [
+            "blue",
+            "purple"
+        ],
+        "musicAttr": {
+            "target_energy": "0.7",
+            "target_mode": "0.3",
+            "target_valence": "0.3"
+        }
+    },
+    {
+        "weather": "drizzle",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": {
+            "target_energy": "0.3",
+            "target_mode": "0.3",
+            "target_valence": "0.3"
+        }
+    },
+    {
+        "weather": "rain",
+        "colors": [
+            "blue",
+            "green"
+        ],
+        "musicAttr": {
+            "target_energy": "0.4",
+            "target_mode": "0.3",
+            "target_valence": "0.3",
+            "min_acousticness": "0.5"
+        }
+    },
+    {
+        "weather": "snow",
+        "colors": [
+            "light blue",
+            "light teal"
+        ],
+        "musicAttr": {
+            "target_energy": "0.2",
+            "target_mode": "0.4",
+            "target_valence": "0.4",
+            "max_tempo": "80"
+        }
+    },
+    {
+        "weather": "mist",
+        "colors": [
+            "light purple",
+            "purple"
+        ],
+        "musicAttr": {
+            "target_energy": "0.7",
+            "target_mode": "0.3",
+            "target_valence": "0.3"
+        }
+    },
+    {
+        "weather": "smoke",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": {
+            "min_acousticness": "0.8",
+            "min_energy": "0.7",
+            "min_loudness": "0.7",
+            "max_mode": "0.4",
+            "min_tempo": "120",
+            "max_valence": "0.3"
+        }
+    },
+    {
+        "weather": "haze",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": {
+            "target_energy": "0.3",
+            "target_valence": "0.3"
+        }
+    },
+    {
+        "weather": "dust",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": {
+            "min_acousticness": "0.8",
+            "min_energy": "0.7",
+            "min_loudness": "0.7",
+            "max_mode": "0.4",
+            "min_tempo": "120",
+            "max_valence": "0.3"
+        }
+    },
+    {
+        "weather": "fog",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": {
+            "min_acousticness": "0.8",
+            "min_energy": "0.7",
+            "min_loudness": "0.7",
+            "max_mode": "0.4",
+            "min_tempo": "120",
+            "max_valence": "0.3"
+        }
+    },
+    {
+        "weather": "clouds",
+        "colors": [
+            "light blue",
+            "light green"
+        ],
+        "musicAttr": {
+            "target_energy": "0.7",
+            "target_valence": "0.8",
+            "target_acousticness": "0.7"
+        }
+    },
+    {
+        "weather": "clear",
+        "colors": [
+            "light blue",
+            "light yellow"
+        ],
+        "musicAttr": {
+            "target_energy": "0.8",
+            "target_valence": "0.8"
+        }
+    }
+]
