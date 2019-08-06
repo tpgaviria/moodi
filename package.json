@@ -29,6 +29,7 @@
     "passport-spotify": "^1.0.1"
   },
   "devDependencies": {
+    "gh-pages": "^2.1.0",
     "nodemon": "^1.19.1"
   }
 }

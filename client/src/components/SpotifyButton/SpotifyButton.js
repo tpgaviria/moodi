@@ -47,7 +47,7 @@ class Player extends React.Component {
             success: (data) => {
                 for (var i = 0; i < 5; i++) {
                     this.data.topArtists.push(data.items[i].id);
-                }
+                } 
                 this.getMusicAttr(token);
             }
         })
