@@ -1,6 +1,5 @@
 // import axios from 'axios';
 import React, { Component } from 'react';
-import * as $ from "jquery";
 import Logo from '../components/Logo';
 import hash from "../hash";
 import WeatherWidget from '../components/WeatherWidget';
@@ -10,7 +9,7 @@ import MoodSelector from '../components/MoodSelector';
 // import API from '../utilities/APIs';
 import BackgroundCanvas from '../components/BackgroundCanvas';
 import '../components/SpotifyButton/SpotifyButton.css';
-import { authEndpoint, clientId, redirectUri, scopes } from "../config";
+import { authEndpoint, clientId, redirectUri, devredirectUri, scopes } from "../config";
 require('dotenv').config();
 
 class Main extends Component {
@@ -23,18 +22,21 @@ class Main extends Component {
 
     componentDidMount() {
         let _token = hash.access_token;
-            if (_token) {
-                this.setState({
-                    token: _token
-                });
-            }
+        if (_token) {
+            this.setState({
+                token: _token
+            });
+        }
+    }
+
+    componentDidUpdate () {
+        console.log('component updated')
     }
 
     handleWeatherGet(data) {
         this.setState({
             weather: data
         })
-        console.log(this.data)
     }
 
     handleMoodSelection(event) {
@@ -45,8 +47,7 @@ class Main extends Component {
     }
 
     render() {
-        console.log(this.state.mood);
-
+        console.log(`weather: ${this.state.weather}, mood: ${this.state.mood}`)
         return (
             <div>
                 <BackgroundCanvas />
@@ -55,9 +56,18 @@ class Main extends Component {
                 {/* <LIFXButton /> */}
                 {this.state.token && <MoodSelector onChange={this.handleMoodSelection.bind(this)} />}
 
-                {!this.state.token && (
+                {!this.state.token && window.location.hostname !== "localhost" && (
                     <a
                         href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
+                            "%20"
+                        )}&response_type=token&show_dialog=true`}
+                    ><button className="btn-lg btn-success">
+                            Login to Spotify
+            </button></a>
+                )}
+                {!this.state.token && window.location.hostname === "localhost" && (
+                    <a
+                        href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${devredirectUri}&scope=${scopes.join(
                             "%20"
                         )}&response_type=token&show_dialog=true`}
                     ><button className="btn-lg btn-success">
@@ -67,7 +77,13 @@ class Main extends Component {
                 {this.state.token && this.state.weather && !this.state.mood && (
                     <Player
                         token={this.state.token}
-                        weatherMain={this.state.weather}
+                        mode={this.state.weather}
+                    />
+                )}
+                {this.state.token && this.state.weather && this.state.mood && (
+                    <Player
+                        token={this.state.token}
+                        mode={this.state.mood}
                     />
                 )}
             </div >

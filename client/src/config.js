@@ -9,6 +9,7 @@ export const authEndpoint = "https://accounts.spotify.com/authorize";
 // Replace with your app's client ID, redirect URI and desired scopes
 export const clientId = "dcdae55729954846ba45fb98e9d768af";
 export const redirectUri = "https://moodimusic.herokuapp.com/home";
+export const devredirectUri = "http://localhost:3000/callback";
 export const scopes = [
     "user-top-read",
     "user-read-currently-playing",

@@ -1,6 +1,6 @@
 [
     {
-        "weather": "thunderstorm",
+        "mode": "thunderstorm",
         "colors": [
             "blue",
             "purple"
@@ -12,7 +12,7 @@
         }
     },
     {
-        "weather": "drizzle",
+        "mode": "drizzle",
         "colors": [
             "light blue",
             "light green"
@@ -24,7 +24,7 @@
         }
     },
     {
-        "weather": "rain",
+        "mode": "rain",
         "colors": [
             "blue",
             "green"
@@ -37,7 +37,7 @@
         }
     },
     {
-        "weather": "snow",
+        "mode": "snow",
         "colors": [
             "light blue",
             "light teal"
@@ -50,7 +50,7 @@
         }
     },
     {
-        "weather": "mist",
+        "mode": "mist",
         "colors": [
             "light purple",
             "purple"
@@ -62,7 +62,7 @@
         }
     },
     {
-        "weather": "smoke",
+        "mode": "smoke",
         "colors": [
             "light blue",
             "light green"
@@ -77,7 +77,7 @@
         }
     },
     {
-        "weather": "haze",
+        "mode": "haze",
         "colors": [
             "light blue",
             "light green"
@@ -88,7 +88,7 @@
         }
     },
     {
-        "weather": "dust",
+        "mode": "dust",
         "colors": [
             "light blue",
             "light green"
@@ -103,7 +103,7 @@
         }
     },
     {
-        "weather": "fog",
+        "mode": "fog",
         "colors": [
             "light blue",
             "light green"
@@ -118,7 +118,7 @@
         }
     },
     {
-        "weather": "clouds",
+        "mode": "clouds",
         "colors": [
             "light blue",
             "light green"
@@ -130,7 +130,7 @@
         }
     },
     {
-        "weather": "clear",
+        "mode": "clear",
         "colors": [
             "light blue",
             "light yellow"
@@ -138,6 +138,18 @@
         "musicAttr": {
             "target_energy": "0.8",
             "target_valence": "0.8"
+        }
+    },
+    {
+        "mode": "dance party",
+        "colors": [
+            "light blue",
+            "light yellow"
+        ],
+        "musicAttr": {
+            "target_danceability": "1.0",
+            "min_valence": "0.7",
+            "min_energy": "0.8"
         }
     }
 ]

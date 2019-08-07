@@ -9,7 +9,7 @@ class Player extends React.Component {
         token: this.props.token,
         is_playing: '',
         progress_ms: '',
-        weatherMain: this.props.weather,
+        mode: this.props.mode,
         time: '',
         playlistURL: null
     }
@@ -54,19 +54,28 @@ class Player extends React.Component {
     }
 
     getMusicAttr(token) {
-        let weather = this.state.weatherMain;
-        weather = weather.toLowerCase();
+        let mode = this.props.mode;
+        if (this.state.weatherMain) {
+            mode = this.state.weatherMain;
+        }
+        if (this.state.mood) {
+            mode = this.state.mood;
+        }
+        mode = mode.toLowerCase();
+        console.log('mode: ' + mode);
+        console.log('mooddata: ' + moodData);
         let musicAttr = null;
         for (let i = 0; i < moodData.length; i++) {
-           if (weather === moodData[i].weather) {
+           if (mode === moodData[i].mode) {
                musicAttr = moodData[i].musicAttr
             }
         }
         let query = $.param(musicAttr);
         this.getSongs(token, query);
     }
-
+    
     getSongs(token, query) {
+        console.log('music attr query: ' + query);
         let artists = this.data.topArtists.join('&');
         let URL = `https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/recommendations?market=US&seed_artists=${artists}&${query}`;
         console.log(URL);
@@ -153,8 +162,7 @@ class Player extends React.Component {
     componentDidMount() {
         if (this.state.token) {
             this.setState({
-                token: this.props.token,
-                weatherMain: this.props.weatherMain
+                token: this.props.token
             });
             this.getUserData(this.state.token);
         }
@@ -162,6 +170,7 @@ class Player extends React.Component {
     }
 
     render() {
+        console.log(this.props)
         return (
             <div>
                 <div id="player">

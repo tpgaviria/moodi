@@ -20,7 +20,7 @@ class WeatherWidget extends Component {
             .then(res => {
                 const temp = (Math.round(((res.data.main.temp) - 273.15) * 1.8) + 32) + '°';
                 this.props.handleWeatherGet(res.data.weather[0].main);
-                this.setState ({
+                this.setState({
                     weatherData: res.data,
                     weatherMain: res.data.weather[0].main,
                     weatherDesc: res.data.weather[0].description,
@@ -37,29 +37,33 @@ class WeatherWidget extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.getWeather();
     }
-    
+
     render() {
         var base_url = window.location.origin;
         return (
-            <div className="weather-widget-container">
-                <div id="weather-data">
-                    <img src={`${base_url}/images/weather/${this.state.icon}.svg`} alt='{weatherMain}' className='weathericon' />
-                    <p id='description'>{this.state.weatherDesc}</p>
-                </div>
-                <div id="time-container">
-                    <div id="city">
-                        <img src={`${base_url}/images/location-pointer.png`} alt='location pointer' id='pointer' />{this.state.currentCity}
-                    </div>
-                    <div id="clock-container">
-                        <Clock />
-                    </div>
-                </div>
-                <div id="temp-container">
-                    <p id='temp'>{this.state.currentTemp}</p>
-                </div>
+            <div>
+                {this.state.weatherMain &&
+                    <div className="weather-widget-container">
+                        <div id="weather-data">
+                            <img src={`${base_url}/images/weather/${this.state.icon}.svg`} alt='{weatherMain}' className='weathericon' />
+                            <p id='description'>{this.state.weatherDesc}</p>
+                        </div>
+                        <div id="time-container">
+                            <div id="city">
+                                <img src={`${base_url}/images/location-pointer.png`} alt='location pointer' id='pointer' />{this.state.currentCity}
+                            </div>
+                            <div id="clock-container">
+                                <Clock />
+                            </div>
+                        </div>
+                        <div id="temp-container">
+                            <p id='temp'>{this.state.currentTemp}</p>
+                        </div>
+                    </div >
+                }
             </div >
         )
     }
