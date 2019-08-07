@@ -9,6 +9,5 @@ module.exports = {
             .then(results => {
                 res.json(results.data);
             })
-            .catch(console.log('error getting weather from weather controller'))
     }
 }

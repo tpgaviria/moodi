@@ -4,7 +4,7 @@ import Logo from '../components/Logo';
 import hash from "../hash";
 import WeatherWidget from '../components/WeatherWidget';
 import Player from '../components/SpotifyButton';
-// import LIFXButton from '../components/LIFXButton';
+import LIFXButton from '../components/LIFXButton';
 import MoodSelector from '../components/MoodSelector';
 // import API from '../utilities/APIs';
 import BackgroundCanvas from '../components/BackgroundCanvas';
@@ -17,7 +17,8 @@ class Main extends Component {
         currentCity: "Atlanta",
         token: null,
         mood: null,
-        weather: null
+        weather: null,
+        lifxSynced: false
     }
 
     componentDidMount() {
@@ -29,13 +30,19 @@ class Main extends Component {
         }
     }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         console.log('component updated')
     }
 
     handleWeatherGet(data) {
         this.setState({
             weather: data
+        })
+    }
+
+    handleLifxSynced(syncedStatus) {
+        this.setState({
+            lifxSynced: true
         })
     }
 
@@ -47,13 +54,16 @@ class Main extends Component {
     }
 
     render() {
+        console.log('lifx synced: ' + this.state.lifxSynced);
         console.log(`weather: ${this.state.weather}, mood: ${this.state.mood}`)
         return (
             <div>
                 <BackgroundCanvas />
                 <Logo />
                 <WeatherWidget handleWeatherGet={this.handleWeatherGet.bind(this)} />
-                {/* <LIFXButton /> */}
+
+                <LIFXButton synced={this.state.lifxSynced} handleLifxSynced={this.handleLifxSynced.bind(this)}/>
+
                 {this.state.token && <MoodSelector onChange={this.handleMoodSelection.bind(this)} />}
 
                 {!this.state.token && window.location.hostname !== "localhost" && (

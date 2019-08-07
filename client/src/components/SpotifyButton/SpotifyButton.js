@@ -62,8 +62,6 @@ class Player extends React.Component {
             mode = this.state.mood;
         }
         mode = mode.toLowerCase();
-        console.log('mode: ' + mode);
-        console.log('mooddata: ' + moodData);
         let musicAttr = null;
         for (let i = 0; i < moodData.length; i++) {
            if (mode === moodData[i].mode) {
@@ -75,7 +73,6 @@ class Player extends React.Component {
     }
     
     getSongs(token, query) {
-        console.log('music attr query: ' + query);
         let artists = this.data.topArtists.join('&');
         let URL = `https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/recommendations?market=US&seed_artists=${artists}&${query}`;
         console.log(URL);
@@ -170,7 +167,6 @@ class Player extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <div>
                 <div id="player">
