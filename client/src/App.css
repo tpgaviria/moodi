@@ -1,6 +1,8 @@
 .App {
   text-align: center;
   color: white;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -10,4 +12,8 @@ a {
 a:hover{
   color: white;
   text-decoration: none;
+}
+
+#player {
+  margin-left: -5%;
 }

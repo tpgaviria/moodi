@@ -4,22 +4,29 @@
     border-radius: 8px;
     margin-bottom: 2%;
     width: 50vw;
-    padding: 5%;
+    padding-top: 1%;
     display: flex;
     flex-direction: row;
 }
 
-.weather > div {
-    margin: 0% 10%;
+#weather-data {
+    margin-top: 5%;
+    margin-left: 5%;
 }
 
 #time-container {
-    width: 50%;
+    width: 60%;
+    margin-left: 5%;
 }
 
 #pointer {
     height: 1em;
-    padding-top: 3px;
+    margin-right: 3px;
+    margin-top: -5px;
+}
+
+#city {
+    font-size: 1.5em;
 }
 
 .weathericon {
@@ -28,14 +35,21 @@
     padding: 0px;
 }
 
+#description {
+    font-size: 1.5em;
+}
+
 #temp-container {
     width: 30%;
 }
 
 #temp {
-    font-size: 5em;
+    font-size: 6em;
+    margin-top: 15%;
+    font-weight: 600;
 }
 
 #clock-container {
     width: 100%;
+    margin-top: 7%;
 }

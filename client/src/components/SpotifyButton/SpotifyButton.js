@@ -166,7 +166,7 @@ class Player extends React.Component {
             <div>
                 <div id="player">
                     {this.state.playlistURL &&
-                        <iframe src={`https://open.spotify.com/embed/playlist/${this.data.playlistURL}`} width="400" height="380" frameBorder="0" allowtransparency="true" allow="encrypted-media" title="player"></iframe>
+                        <iframe src={`https://open.spotify.com/embed/playlist/${this.data.playlistURL}`} height="380" frameBorder="0" allowtransparency="true" allow="encrypted-media" title="player"></iframe>
                     }
                 </div>
             </div>
