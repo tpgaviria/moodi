@@ -30,17 +30,13 @@ class Main extends Component {
         }
     }
 
-    componentDidUpdate() {
-        console.log('component updated')
-    }
-
     handleWeatherGet(data) {
         this.setState({
             weather: data
         })
     }
 
-    handleLifxSynced(syncedStatus) {
+    handleLifxSynced() {
         this.setState({
             lifxSynced: true
         })
@@ -54,15 +50,16 @@ class Main extends Component {
     }
 
     render() {
-        console.log('lifx synced: ' + this.state.lifxSynced);
-        console.log(`weather: ${this.state.weather}, mood: ${this.state.mood}`)
         return (
             <div>
                 <BackgroundCanvas />
                 <Logo />
                 <WeatherWidget handleWeatherGet={this.handleWeatherGet.bind(this)} />
 
-                <LIFXButton synced={this.state.lifxSynced} handleLifxSynced={this.handleLifxSynced.bind(this)}/>
+            
+                {this.state.token && this.state.weather && !this.state.mood &&  (<LIFXButton synced={this.state.lifxSynced} handleLifxSynced={this.handleLifxSynced.bind(this)} weather={this.state.weather} />)}
+
+                {this.state.token && this.state.weather && this.state.mood && (<LIFXButton synced={this.state.lifxSynced} handleLifxSynced={this.handleLifxSynced.bind(this)} weather={this.state.weather} mood={this.state.mood} />)}
 
                 {this.state.token && <MoodSelector onChange={this.handleMoodSelection.bind(this)} />}
 

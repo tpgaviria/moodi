@@ -8,35 +8,68 @@ require('dotenv').config();
 class LIFXButton extends Component {
 
     state = {
-        synced: this.props.synced
+        synced: false,
+        mood: this.props.mood,
+        weather: this.props.weather
     }
 
     data = {
-        synced: false
+        lightData: null,
+        selectedLights: ["d073d53e1ee4", "d073d53e4256"]
     }
 
-    getLifxToken = () => {
+    getLifxData(mood) {
         API.lifx()
             .then(res => {
-                console.log('ok');
-                this.data.synced = true;
-                this.props.handleLifxSynced(this.data.synced);
+                this.props.handleLifxSynced();
+                this.data.lightData = res.data;
+                let lightSelector = this.data.selectedLights;
+                console.log(lightSelector);
+                this.changeLights(mood, lightSelector);
+                this.setState({ synced: true });
             })
     }
 
-    render() {
-console.log(this.props.synced);
-        return (
+    changeLights(mood) {
+        let lightData = {
+            "states":[
+                {
+                    "selector": "d073d53e1ee4",
+                    "power": "on",
+                    "color": "green",
+                    "brightness": 1.0
+                },
+                {
+                    "selector": "d073d53e4256",
+                    "power": "on",
+                    "color": "yellow",
+                    "brightness": 1.0
+                }
+            ],
+            "fast": true
+        }
+        API.changeLights(mood)
+            .then(res => {
+                console.log('hi')
+            })
+    }
 
+
+    componentDidMount() {
+        // if (this.state.weather) {
+        //     this.getLifxData();
+        // }
+    }
+
+    render() {
+        return (
             <div>
-                {!this.props.synced && (
-                    <button onClick={this.getLifxToken} className="btn-lg btn-success">
-                    Sync with LIFX
-        </button>
+                {!this.state.synced && (
+                    <button className="btn-lg btn-success" onClick={() => this.getLifxData(this.state.weather)}>Sync Lights</button>
                 )}
-                {this.props.synced && (
-                    <h1>synced</h1>
-                )}
+
+                {this.state.synced && (
+                    <h1>synced</h1>)}
             </div>
         );
     }

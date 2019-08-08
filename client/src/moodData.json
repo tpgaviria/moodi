@@ -6,9 +6,8 @@
             "purple"
         ],
         "musicAttr": {
-            "target_energy": "0.7",
-            "target_mode": "0.3",
-            "target_valence": "0.3"
+            "min_energy": "0.5",
+            "max_valence": "0.5"
         }
     },
     {
@@ -79,8 +78,8 @@
     {
         "mode": "haze",
         "colors": [
-            "light blue",
-            "light green"
+            "#9cebff",
+            "#a3ff9c"
         ],
         "musicAttr": {
             "target_energy": "0.3",
@@ -143,8 +142,8 @@
     {
         "mode": "dance party",
         "colors": [
-            "light blue",
-            "light yellow"
+            "red",
+            "pink"
         ],
         "musicAttr": {
             "target_danceability": "1.0",

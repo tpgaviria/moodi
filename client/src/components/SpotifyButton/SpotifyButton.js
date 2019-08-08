@@ -7,10 +7,7 @@ class Player extends React.Component {
     state = {
         userdata: "",
         token: this.props.token,
-        is_playing: '',
-        progress_ms: '',
         mode: this.props.mode,
-        time: '',
         playlistURL: null
     }
 
@@ -103,10 +100,9 @@ class Player extends React.Component {
                 let playlistExists = false;
                 for (let i = 0; i < data.items.length; i++) {
                     if (data.items[i].name === "Moodi Playlist") {
-                        console.log('moodi playlist exists');
                         playlistExists = true;
                         this.data.playlistURL = data.items[i].id;
-                        console.log('existing playlist url: ' + this.data.playlistURL);
+                        console.log('moodi playlist exists @ ' + this.data.playlistURL);
                         this.addTracksToPlaylist(token);
                         break;
                     };
@@ -163,7 +159,7 @@ class Player extends React.Component {
             });
             this.getUserData(this.state.token);
         }
-        console.log('weather: ' + this.state.weatherMain);
+        console.log('weather: ' + this.state.mode);
     }
 
     render() {
