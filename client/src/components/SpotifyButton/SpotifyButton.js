@@ -44,7 +44,7 @@ class Player extends React.Component {
             success: (data) => {
                 for (var i = 0; i < 5; i++) {
                     this.data.topArtists.push(data.items[i].id);
-                } 
+                }
                 this.getMusicAttr(token);
             }
         })
@@ -61,14 +61,14 @@ class Player extends React.Component {
         mode = mode.toLowerCase();
         let musicAttr = null;
         for (let i = 0; i < moodData.length; i++) {
-           if (mode === moodData[i].mode) {
-               musicAttr = moodData[i].musicAttr
+            if (mode === moodData[i].mode) {
+                musicAttr = moodData[i].musicAttr
             }
         }
         let query = $.param(musicAttr);
         this.getSongs(token, query);
     }
-    
+
     getSongs(token, query) {
         let artists = this.data.topArtists.join('&');
         let URL = `https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/recommendations?market=US&seed_artists=${artists}&${query}`;
@@ -88,7 +88,7 @@ class Player extends React.Component {
             }
         })
     }
-    
+
     checkPlaylistExists(token) {
         $.ajax({
             url: `https://api.spotify.com/v1/users/${this.data.userID}/playlists??offset=0&limit=50`,
@@ -115,7 +115,7 @@ class Player extends React.Component {
             }
         })
     }
-    
+
     createPlaylist(token) {
         const data = {
             "name": "Moodi Playlist",
@@ -146,11 +146,10 @@ class Player extends React.Component {
                 xhr.setRequestHeader("Authorization", "Bearer " + token);
             },
             success: (res) => {
-                this.setState({ playlistURL: this.data.playlistURL});
+                this.setState({ playlistURL: this.data.playlistURL });
             }
         });
     }
-
 
     componentDidMount() {
         if (this.state.token) {

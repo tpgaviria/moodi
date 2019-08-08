@@ -150,5 +150,17 @@
             "min_valence": "0.7",
             "min_energy": "0.8"
         }
+    },
+    {
+        "mode": "depressed",
+        "colors": [
+            "blue",
+            "blue"
+        ],
+        "musicAttr": {
+            "target_danceability": "1.0",
+            "min_valence": "0.7",
+            "min_energy": "0.8"
+        }
     }
 ]

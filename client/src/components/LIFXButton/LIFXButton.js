@@ -9,8 +9,7 @@ class LIFXButton extends Component {
 
     state = {
         synced: false,
-        mood: this.props.mood,
-        weather: this.props.weather
+        mode: this.props.mode
     }
 
     data = {
@@ -19,35 +18,19 @@ class LIFXButton extends Component {
     }
 
     getLifxData(mood) {
-        API.lifx()
-            .then(res => {
-                this.props.handleLifxSynced();
-                this.data.lightData = res.data;
-                let lightSelector = this.data.selectedLights;
-                console.log(lightSelector);
-                this.changeLights(mood, lightSelector);
-                this.setState({ synced: true });
-            })
+        this.setState({ synced: this.props.synced });
+        if (this.state.synced) {
+            API.lifx()
+                .then(res => {
+                    this.props.handleLifxSynced();
+                    this.data.lightData = res.data;
+                    this.changeLights(mood);
+                    this.setState({ synced: true, mode: mood });
+                })
+        }
     }
 
     changeLights(mood) {
-        let lightData = {
-            "states":[
-                {
-                    "selector": "d073d53e1ee4",
-                    "power": "on",
-                    "color": "green",
-                    "brightness": 1.0
-                },
-                {
-                    "selector": "d073d53e4256",
-                    "power": "on",
-                    "color": "yellow",
-                    "brightness": 1.0
-                }
-            ],
-            "fast": true
-        }
         API.changeLights(mood)
             .then(res => {
                 console.log('hi')
@@ -56,17 +39,37 @@ class LIFXButton extends Component {
 
 
     componentDidMount() {
+        if (this.state.mode) {
+            this.changeLights(this.state.mode)
+        }
+        // if (this.state.weather) {
+        //     this.getLifxData();
+        // }
+    }
+    componentDidUpdate() {
+        if (this.state.mode) {
+            this.changeLights(this.state.mode)
+        }
         // if (this.state.weather) {
         //     this.getLifxData();
         // }
     }
 
+    getDerivedStateFromProps() {
+        this.changeLights(this.props.mode);
+    }
+
     render() {
+        console.log(this.props);
+        console.log('mood ' + this.state.mode)
         return (
             <div>
-                {!this.state.synced && (
-                    <button className="btn-lg btn-success" onClick={() => this.getLifxData(this.state.weather)}>Sync Lights</button>
+                {!this.state.synced && this.state.mode && (
+                    <button className="btn-lg btn-success" onClick={() => this.getLifxData(this.state.mode)}>Sync Lights</button>
                 )}
+                {/* {!this.state.synced && !this.state.weather && this.state.mood && (
+                    <button className="btn-lg btn-success" onClick={() => this.getLifxData(this.state.mode)}>Sync Lights</button>
+                )} */}
 
                 {this.state.synced && (
                     <h1>synced</h1>)}

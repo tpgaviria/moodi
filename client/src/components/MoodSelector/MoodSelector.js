@@ -7,6 +7,12 @@ class MoodSelector extends Component {
         mood: "default"
     }
 
+    // componentDidUpdate() {
+    //     if (this.state.mood !== 'default') {
+    //         this.props.onChange(this.state.mood)
+    //     }
+    // }
+
     render() {
         return (
             <div>
@@ -14,7 +20,7 @@ class MoodSelector extends Component {
                     <label>Playlist created based on current weather. Want to choose a mood instead?</label>
                     <select value={this.state.mood} onChange={(event) => {
                         this.props.onChange(event);
-                        this.setState({mood: event.target.value});
+                        this.setState({ mood: event.target.value });
                     }}>
                         <option value="default" disabled>Choose one</option>
                         <option value="happy">Happy</option>

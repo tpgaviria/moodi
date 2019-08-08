@@ -49,7 +49,12 @@ class Main extends Component {
 
     }
 
+    // componentDidUpdate() {
+    //     this.handleMoodSelection();
+    // }
+
     render() {
+        console.log('main page mood ' + this.state.mood);
         return (
             <div>
                 <BackgroundCanvas />
@@ -57,9 +62,9 @@ class Main extends Component {
                 <WeatherWidget handleWeatherGet={this.handleWeatherGet.bind(this)} />
 
             
-                {this.state.token && this.state.weather && !this.state.mood &&  (<LIFXButton synced={this.state.lifxSynced} handleLifxSynced={this.handleLifxSynced.bind(this)} weather={this.state.weather} />)}
+                {this.state.token && this.state.weather && !this.state.mood &&  (<LIFXButton synced={this.state.lifxSynced} handleLifxSynced={this.handleLifxSynced.bind(this)} mode={this.state.weather} synced={this.state.lifxSynced}/>)}
 
-                {this.state.token && this.state.weather && this.state.mood && (<LIFXButton synced={this.state.lifxSynced} handleLifxSynced={this.handleLifxSynced.bind(this)} weather={this.state.weather} mood={this.state.mood} />)}
+                {this.state.token && this.state.mood && (<LIFXButton synced={this.state.lifxSynced} handleLifxSynced={this.handleLifxSynced.bind(this)} mode={this.state.mood} synced={this.state.lifxSynced}/>)}
 
                 {this.state.token && <MoodSelector onChange={this.handleMoodSelection.bind(this)} />}
 
